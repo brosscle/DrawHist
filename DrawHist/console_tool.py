@@ -27,10 +27,10 @@ def console_tool():
 
     
     parse_args, unknown = parser.parse_known_args()
-    if not parse_args.inputcsv[-7:] == '.csv':
+    if not parse_args.inputCSV[-7:] == '.csv':
         raise IOError('Input file must be of type .csv')
 
     os.makedirs(parse_args.outfolder, exist_ok=True)
-    DrawHistFromCSV(parse_args.inputcsv, parse_args.min, parse_args.max, parse_args.outfolder)
+    DrawHistFromCSV(parse_args.inputCSV, parse_args.min, parse_args.max, parse_args.outfolder)
 
 
