@@ -9,7 +9,7 @@ Created on Fri Mar 18 15:52:21 2022
 import sys
 import os
 import argparse
-from .DrawHist import DrawHistFromCSV
+from .DrawHist_script import DrawHistFromCSV
 
 def path(string):
     if os.path.exists(string):
