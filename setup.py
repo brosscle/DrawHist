@@ -1,16 +1,11 @@
 import setuptools
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
-
 setuptools.setup(
     name="DrawHist",
     version="1.0",
     author="Brossard Clement",
     author_email="",
     description="Draw Histograms and basic statistics from images, ROIs, and colors",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
     url="https://github.com/brosscle/DrawHist",
     packages=['DrawHist'],
     package_data={'': ['']},
