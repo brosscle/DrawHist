@@ -19,7 +19,6 @@ setuptools.setup(
         'scipy>=1.4.0',
         'numpy>=1.21',
         'nibabel',
-        'csv',
         'matplotlib'
     ],
     python_requires='>=3.7',
