@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name="DrawHist",
+    name="draw-hist",
     version="1.0",
     author="Brossard Clement",
     author_email="",
@@ -9,10 +9,10 @@ setuptools.setup(
     url="https://github.com/brosscle/DrawHist",
     packages=['DrawHist'],
     package_data={'': ['']},
-    scripts=['DrawHist/DrawHist.py'],
+    scripts=['DrawHist/DrawHist_script.py'],
     entry_points={
         'console_scripts': [
-            'DrawHist = DrawHist.console_tool:console_tool',
+            'draw-hist = DrawHist.console_tool:console_tool',
         ]
     },
     install_requires=[
