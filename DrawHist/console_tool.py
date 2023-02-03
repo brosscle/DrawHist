@@ -27,7 +27,7 @@ def console_tool():
 
     
     parse_args, unknown = parser.parse_known_args()
-    if not parse_args.inputCSV[-7:] == '.csv':
+    if not parse_args.inputCSV[-4:] == '.csv':
         raise IOError('Input file must be of type .csv')
 
     os.makedirs(parse_args.outfolder, exist_ok=True)
