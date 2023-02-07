@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from scipy.stats import t
 
-def DrawHist(list_images, list_rois, list_colors, min_val, max_val, outfolder):
+def DrawHist_im(list_images, list_rois, list_colors, min_val, max_val, outfolder):
     plt.figure()
     BigVec = []
     uni_col = list(np.unique(list_colors))
@@ -98,20 +98,105 @@ def DrawHist(list_images, list_rois, list_colors, min_val, max_val, outfolder):
 
 
 
+#def DrawHistFromCSV(csvfilepath, min_val, max_val, outfolder):
+#    with open(csvfilepath, 'r', newline='') as csvfile:
+#        D = csv.reader(csvfile)
+#        ims = []
+#        rois = []
+#        colors = []
+#        for row in D:
+#            ims.append(row[0])
+#            rois.append(row[1])
+#            colors.append(row[2])
+#            
+#    DrawHist(ims, rois, colors, min_val, max_val, outfolder)
+    
+
+def DrawHist_val(vox_file, color, min_val, max_val, outfolder):
+    plt.figure()
+    BigVec = []
+    uni_col = list(np.unique(color))
+    for i in range(len(uni_col)):
+        BigVec.append([])
+    
+    
+    td = datetime.now()
+    df_string = td.strftime("%H_%M_%S")
+    
+    
+    
+    for vox_f, col in zip(vox_file, color):
+        print(vox_f)
+        print(col)
+        
+        
+        with open(vox_f, 'r', newline='') as csvfile:
+            D = csv.reader(csvfile)
+            vox_val = []
+            for ind, row in enumerate(D):
+                if ind==0:
+                    continue
+                vox_val.append(int(row[7]))
+        
+
+        
+        Vec = vox_val
+        BigVec[uni_col.index(col)] = np.concatenate((BigVec[uni_col.index(col)], Vec))        
+        res = plt.hist(Vec, range=(min_val, max_val), bins=max_val-min_val, color = col, density=True, alpha=0.5)
+    
+    splt = vox_f.split(os.sep)
+    basename = splt[-1]
+    splt2 = basename.split('.')
+    basename2 = splt2[0]
+    plt.title(basename2)
+    fname = outfolder+os.sep + basename2 + '_HIST_' + df_string + '.png'
+    plt.savefig(fname, dpi='figure')
+    plt.close()
+    
+    
+    outfile = outfolder+ os.sep + basename2 + '_STAT_' + df_string + '.csv'
+    with open(outfile, 'w', newline='') as csvfile:
+        wr = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        Def = ['Color', 'number_images', 'number_voxels', 'mean', 'std', 'median', 'percentile5', 'percentile95', 'confidence_interval_95_low', 'confidence_interval_95_high']
+        wr.writerow(Def)
+        for ind, vecval in enumerate(BigVec):
+            
+            val_min = vecval<max_val
+            val_max = vecval>min_val
+            val_to_keep = val_min & val_max
+            vecval_bis = vecval[val_to_keep]
+            n = len(vecval_bis)
+            mean = np.mean(vecval_bis)
+            std = np.std(vecval_bis)
+            med = np.median(vecval_bis)
+            per5 = np.percentile(vecval_bis, 5)
+            per95 = np.percentile(vecval_bis, 95)
+        
+            confidence = 0.95
+            dof = n-1
+            t_crit = np.abs(t.ppf((1-confidence)/2,dof))
+            conf_int_low = mean-std*t_crit/np.sqrt(n)
+            conf_int_high = mean+std*t_crit/np.sqrt(n)
+            
+    
+            stat = [uni_col[ind], color.count(uni_col[ind]), n, mean, std, med, per5, per95, conf_int_low, conf_int_high]
+            wr.writerow(stat)
+
+
+    
+    
+    
 def DrawHistFromCSV(csvfilepath, min_val, max_val, outfolder):
     with open(csvfilepath, 'r', newline='') as csvfile:
         D = csv.reader(csvfile)
-        ims = []
-        rois = []
-        colors = []
+        vox_file = []
+        color = []
         for row in D:
-            ims.append(row[0])
-            rois.append(row[1])
-            colors.append(row[2])
-            
-    DrawHist(ims, rois, colors, min_val, max_val, outfolder)
-    
+            vox_file.append(row[0])
+            color.append(row[1])
 
+            
+    DrawHist_val(vox_file, color, min_val, max_val, outfolder)
 
 
 # mi = 6
