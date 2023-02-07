@@ -20,7 +20,7 @@ def path(string):
 
 def console_tool():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--inputCSV', metavar='inputcsv', type=path, help='Path to input csv (str), containing as first column paths to images, as second paths to ROI, and as third colors.', required=True)
+    parser.add_argument('--inputCSV', metavar='inputcsv', type=path, help='Path to input csv (str), containing as first column paths to another csv containing voxel values, and as second column the related colors.', required=True)
     parser.add_argument('--min', metavar='min', type=int, help='Minimum value to consider for histograms and statistics (int).', required=True)
     parser.add_argument('--max', metavar='max', type=int, help='Maximum value to consider for histograms and statistics (int).', required=True)
     parser.add_argument('--outfolder', metavar='outfolder', type=str, help='Path to the folder where results will be saved (str).', required=True)
