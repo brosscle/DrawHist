@@ -124,7 +124,7 @@ def DrawHist_val(vox_file, color, min_val, max_val, outfolder):
     df_string = td.strftime("%H_%M_%S")
     
     
-    
+    print('Processing begins')
     for vox_f, col in zip(vox_file, color):
         print(vox_f)
         print(col)
